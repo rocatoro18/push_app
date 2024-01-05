@@ -1,8 +1,14 @@
 part of 'notifications_bloc.dart';
 
-sealed class NotificationsEvent extends Equatable {
+sealed class NotificationsEvent {
   const NotificationsEvent();
+}
 
-  @override
-  List<Object> get props => [];
+class NotificationStatusChanged extends NotificationsEvent {
+  final AuthorizationStatus status;
+
+  // CLEAN CODE: SI SE RECIBE MAS DE TRES ARGUMENTOS,
+  // ES RECOMENDABLE HACE UN OBJETO, SI SON TRES O MENOS
+  // PUEDE SER ARGUMENTO POSICIONAL
+  NotificationStatusChanged(this.status);
 }

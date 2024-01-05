@@ -13,11 +13,20 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     //on<NotificationsEvent>((event, emit) {
     //  // TODO: implement event handler
     //});
+    // EVENTO
+    on<NotificationStatusChanged>(_notificationStatusChanged);
   }
 
   static Future<void> initializeFCM() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
+  }
+
+  void _notificationStatusChanged(
+      NotificationStatusChanged event, Emitter<NotificationsState> emit) {
+    emit(state.copyWith(
+        // EL NUEVO STATUS VA A SER LO QUE VIENE EN EL EVENTO
+        status: event.status));
   }
 
   void requestPermission() async {
@@ -31,6 +40,6 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       sound: true,
     );
 
-    settings.authorizationStatus;
+    add(NotificationStatusChanged(settings.authorizationStatus));
   }
 }
