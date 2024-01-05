@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591444229712",
+    "project_id": "flutter-push-6ad17",
+    "storage_bucket": "flutter-push-6ad17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591444229712:android:d5f69134a3b47d80439b55",
+        "android_client_info": {
+          "package_name": "com.rocatoro.push_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjdoegHHa0zoU-Yb-CXTtLWy2sEySqE9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
