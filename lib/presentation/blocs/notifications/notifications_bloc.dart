@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:push_app/domain/entities/push_message.dart';
 import 'package:push_app/firebase_options.dart';
 
 part 'notifications_event.dart';
@@ -64,6 +67,20 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     if (message.notification == null) return;
     print('Message also contained a notification: ${message.notification}');
+
+    final notification = PushMessage(
+        // SE UTILIZA EL REPLACE ALL, PORQUE ESOS DOS PUNTOS PUEDEN ROMPER MI SISTEMA DE GO ROUTER
+        messageId:
+            message.messageId?.replaceAll(':', '').replaceAll('%', '') ?? '',
+        title: message.notification!.title ?? '',
+        body: message.notification!.body ?? '',
+        sendDate: message.sentTime ?? DateTime.now(),
+        data: message.data,
+        imageUrl: Platform.isAndroid
+            ? message.notification!.android?.imageUrl
+            : message.notification!.apple?.imageUrl);
+
+    print(notification);
   }
 
   void _onForegroundMessage() {
