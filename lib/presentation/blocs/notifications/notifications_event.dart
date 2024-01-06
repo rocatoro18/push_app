@@ -12,3 +12,10 @@ class NotificationStatusChanged extends NotificationsEvent {
   // PUEDE SER ARGUMENTO POSICIONAL
   NotificationStatusChanged(this.status);
 }
+
+// todo 2: notification received #PushMessage podemos recibir este argumento posicional o con nombre
+class NotificationReceived extends NotificationsEvent {
+  final PushMessage pushMessage;
+
+  NotificationReceived(this.pushMessage);
+}

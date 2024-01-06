@@ -24,6 +24,9 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
     //});
     // EVENTO
     on<NotificationStatusChanged>(_notificationStatusChanged);
+
+    // todo 3: Crear el listener # _onPushMessageReceived
+    on<NotificationReceived>(_notificationPushMessage);
     // VERIFICAR ESTADO DE LAS NOTIFICACIONES
     _initialStatusCheck();
     // LISTENER PARA NOTIFICACIONES EN FOREGROUND
@@ -41,6 +44,13 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
         // EL NUEVO STATUS VA A SER LO QUE VIENE EN EL EVENTO
         status: event.status));
     //_getFCMToken();
+  }
+
+  void _notificationPushMessage(
+      NotificationReceived event, Emitter<NotificationsState> emit) {
+    emit(state
+        // SPREAD DE NOTIFICATIONS PARA CREAR EL NUEVO ESTADO CON LA NUEVA NOTIFICACION
+        .copyWith(notifications: [event.pushMessage, ...state.notifications]));
   }
 
   void _initialStatusCheck() async {
@@ -81,6 +91,10 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
             : message.notification!.apple?.imageUrl);
 
     print(notification);
+
+    // todo: add de un nuevo evento
+    // DISPARAR EVENTO
+    add(NotificationReceived(notification));
   }
 
   void _onForegroundMessage() {
