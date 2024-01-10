@@ -11,8 +11,20 @@ class LocalNotifications {
 
   static Future<void> initializeLocalNotifications() async {
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveBackgroundNotificationResponse:
-            onDidReceiveBackgroundNotificationResponse);
+
+    const initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    // TODO ios configuration
+
+    const initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      // TODO IOS SETUP
+    );
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      //onDidReceiveBackgroundNotificationResponse:
+      //  onDidReceiveBackgroundNotificationResponse);
+    );
   }
 }
