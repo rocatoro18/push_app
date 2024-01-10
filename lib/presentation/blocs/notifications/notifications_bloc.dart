@@ -113,7 +113,7 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       sound: true,
     );
     // SOLICITAR PERMISO A LOCAL NOTIFICATIONS
-    await requestPermissionLocalNotifications();
+    await LocalNotifications.requestPermissionLocalNotifications();
     // MANDAMOS EL EVENTO
     add(NotificationStatusChanged(settings.authorizationStatus));
     _getFCMToken();
