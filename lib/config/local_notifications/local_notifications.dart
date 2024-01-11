@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:push_app/config/router/app_router.dart';
 
 class LocalNotifications {
   static Future<void> requestPermissionLocalNotifications() async {
@@ -21,11 +22,8 @@ class LocalNotifications {
       // TODO IOS SETUP
     );
 
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      //onDidReceiveBackgroundNotificationResponse:
-      //  onDidReceiveBackgroundNotificationResponse);
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
   static void showLocalNotification(
@@ -46,5 +44,9 @@ class LocalNotifications {
 
     flutterLocalNotificationsPlugin.show(id, title, body, notificationDetails,
         payload: data);
+  }
+
+  static void onDidReceiveNotificationResponse(NotificationResponse response) {
+    appRouter.push('/push-details/${response.payload}');
   }
 }
