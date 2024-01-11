@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:push_app/config/local_notifications/local_notifications.dart';
+//import 'package:push_app/config/local_notifications/local_notifications.dart';
 import 'package:push_app/domain/entities/push_message.dart';
 import 'package:push_app/firebase_options.dart';
 
@@ -20,7 +20,15 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
   // INSTANCIA DE FIREBASE MESSAGING
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   int pushNumberId = 0;
-  NotificationsBloc() : super(const NotificationsState()) {
+  final Future<void> Function()? requestLocalNotificationPermissions;
+  final void Function(
+      {required int id,
+      String? title,
+      String? body,
+      String? data})? showLocalNotification;
+  NotificationsBloc(
+      {this.requestLocalNotificationPermissions, this.showLocalNotification})
+      : super(const NotificationsState()) {
     //on<NotificationsEvent>((event, emit) {
     //  // TODO: implement event handler
     //});
@@ -94,11 +102,13 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
 
     print(notification);
 
-    LocalNotifications.showLocalNotification(
-        id: ++pushNumberId,
-        body: notification.body,
-        data: notification.data.toString(),
-        title: notification.title);
+    if (showLocalNotification != null) {
+      showLocalNotification!(
+          id: ++pushNumberId,
+          body: notification.body,
+          data: notification.data.toString(),
+          title: notification.title);
+    }
     // todo: add de un nuevo evento
     // DISPARAR EVENTO
     add(NotificationReceived(notification));
@@ -119,7 +129,10 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       sound: true,
     );
     // SOLICITAR PERMISO A LOCAL NOTIFICATIONS
-    await LocalNotifications.requestPermissionLocalNotifications();
+    if (requestLocalNotificationPermissions != null) {
+      await requestLocalNotificationPermissions!();
+      //await LocalNotifications.requestPermissionLocalNotifications();
+    }
     // MANDAMOS EL EVENTO
     add(NotificationStatusChanged(settings.authorizationStatus));
     _getFCMToken();

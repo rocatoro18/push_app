@@ -16,7 +16,15 @@ void main() async {
   await LocalNotifications.initializeLocalNotifications();
 
   runApp(MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => NotificationsBloc())],
+      // CASO DE USO PARA PEDIR USAR EL LOCALNOTIFICATIONS
+      providers: [
+        BlocProvider(
+            create: (_) => NotificationsBloc(
+                requestLocalNotificationPermissions:
+                    LocalNotifications.requestPermissionLocalNotifications,
+                showLocalNotification:
+                    LocalNotifications.showLocalNotification))
+      ],
       child: const MainApp()));
 }
 
