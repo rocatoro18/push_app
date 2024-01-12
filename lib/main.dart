@@ -13,7 +13,8 @@ void main() async {
   // ASEGURA TENER CONFIGURADA APLICACION DE FIREBASE
   await NotificationsBloc.initializeFCM();
   // INICIALIZAR LOCAL NOTIFICATIONS
-  await LocalNotifications.initializeLocalNotifications();
+  // TODO: REMOVER COMENTARIO
+  //await LocalNotifications.initializeLocalNotifications();
 
   runApp(MultiBlocProvider(
       // CASO DE USO PARA PEDIR USAR EL LOCALNOTIFICATIONS
